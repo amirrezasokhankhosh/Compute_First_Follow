@@ -1,65 +1,33 @@
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
-public class Main{
-    static Scanner scanner;
-    static CFG cfg;
+public class Main {
+
     public static void main(String[] args) {
-        scanner = new Scanner(System.in);
-        cfg = new CFG();
+        ArrayList<String> productions = new ArrayList<String>();
+        productions.add("E=TR");
+        productions.add("R=+TR");
+        productions.add("R=#");
+        productions.add("T=FY");
+        productions.add("Y=*FY");
+        productions.add("Y=#");
+        productions.add("F=(E)");
+        productions.add("F=i");
 
-        getCFG();
-    }
+        FirstAndFollow firstAndFollow = new FirstAndFollow(productions , 8);
+        firstAndFollow.runAdjusmentOnProduction();
+        ArrayList<Set> first = firstAndFollow.calculateFirst();
+        ArrayList<Set> follow = firstAndFollow.calculateFollow();
 
-    public static void getCFG() {
-        getRules();
-        isStartingVariable();
-    }
-
-
-    public static void getRules() {
-        String leftSide, rightSide;
-        leftSide = rightSide = "";
-        System.out.println("Enter your rules and enter done when you are done.");
-        while (true) {
-            System.out.println("leftSide: ");
-            leftSide = scanner.next();
-            if (!leftSide.equals("done")) {
-                System.out.println("rightSide: ");
-                rightSide = scanner.next();
-                saveRules(leftSide, rightSide);
-            } else {
-                break;
-            }
+        System.out.println("First :");
+        for (Set s :
+                first) {
+            s.printSet();
         }
-    }
-
-    public static void saveRules(String leftSide , String rightSide){
-        cfg.addVariable(leftSide.toCharArray()[0]);
-        StringTokenizer st = new StringTokenizer(rightSide , "|");
-        while(st.hasMoreTokens()){
-            String right = st.nextToken();
-            char[] chars = right.toCharArray();
-            for(int i = 0; i < chars.length ; i++){
-                if(Character.isLowerCase(chars[i]) || Character.isDigit(chars[i])){
-                    cfg.addAlphabet(chars[i]);
-                }else if(Character.isUpperCase(chars[i])){
-                    cfg.addVariable(chars[i]);
-                }
-            }
-            Rule rule = new Rule(leftSide, right);
-            if (!cfg.addRule(rule)) {
-                System.out.println("Already exist.");
-            }
+        System.out.println("Follow :");
+        for (Set s :
+                follow) {
+            s.printSet();
         }
-    }
-
-    public static void isStartingVariable() {
-        String startingVariable;
-        Character charVar;
-        System.out.println("Enter the starting variable:");
-        startingVariable = scanner.next();
-        charVar = startingVariable.toCharArray()[0];
-        cfg.isStartingVariable(charVar);
     }
 }
