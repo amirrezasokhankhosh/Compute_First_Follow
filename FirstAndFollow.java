@@ -36,6 +36,7 @@ public class FirstAndFollow {
         for (String s: list) {
             if(!production.contains(s)){
                 production.add(s);
+                productionCount++;
             }
         }
     }
