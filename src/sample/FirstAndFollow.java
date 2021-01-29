@@ -9,8 +9,6 @@ public class FirstAndFollow {
     private ArrayList<String> production;
 
     private int  productionCount;
-
-    Map<Character, Character> dups = new HashMap<Character, Character>();
     char[] doneFirst;
     char[] doneFollow;
 
@@ -79,6 +77,13 @@ public class FirstAndFollow {
                 continue;
 
             findFirst(set , c ,0 , 0);
+            ArrayList<Character> list = new ArrayList<Character>();
+            for(Character chr : set.setList){
+                if(!list.contains(chr)){
+                    list.add(chr);
+                }
+            }
+            set.setList = list;
             first.add(set);
             ptr++;
 

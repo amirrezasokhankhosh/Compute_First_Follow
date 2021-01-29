@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -28,11 +29,14 @@ public class Main extends Application {
         primaryStage.setTitle("Compute first and follow!");
 
         GridPane gridPane = new GridPane();
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(gridPane);
 
         Text firstText = new Text("FIRST");
         Text followText = new Text("FOLLOW");
 
         gridPane.add(firstText, 0, 0);
+
         int count = 1;
         for (Set set : first) {
             char name = set.setName;
@@ -70,7 +74,7 @@ public class Main extends Application {
 
         gridPane.setAlignment(Pos.CENTER);
 
-        primaryStage.setScene(new Scene(gridPane, 300, 275));
+        primaryStage.setScene(new Scene(scrollPane, 300, 275));
         primaryStage.show();
     }
 
